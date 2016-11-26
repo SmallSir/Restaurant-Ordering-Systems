@@ -192,8 +192,10 @@
     <ClInclude Include="DishesMenu.h" />
     <ClInclude Include="DishesOrder.h" />
     <ClInclude Include="DishesTypeMenu.h" />
+    <ClInclude Include="Filex.h" />
     <ClInclude Include="HistoryDlg.h" />
     <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="REGISTER.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RestaurantManager.h" />
     <ClInclude Include="RestaurantManagerDlg.h" />
@@ -208,8 +210,10 @@
     <ClCompile Include="DishesMenu.cpp" />
     <ClCompile Include="DishesOrder.cpp" />
     <ClCompile Include="DishesTypeMenu.cpp" />
+    <ClCompile Include="Filex.cpp" />
     <ClCompile Include="HistoryDlg.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="REGISTER.cpp" />
     <ClCompile Include="RestaurantManager.cpp" />
     <ClCompile Include="RestaurantManagerDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

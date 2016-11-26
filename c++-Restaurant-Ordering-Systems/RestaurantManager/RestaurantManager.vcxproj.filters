@@ -60,6 +60,12 @@
     <ClInclude Include="DishesTypeMenu.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="REGISTER.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Filex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RestaurantManager.cpp">
@@ -96,6 +102,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DishesTypeMenu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="REGISTER.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Filex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
