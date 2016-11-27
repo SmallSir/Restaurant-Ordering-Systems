@@ -50,6 +50,8 @@ void REGISTER::OnBnClickedButton1Complete()
 	file.p[m].Password = m_password;
 	file.p[m].Number = m_number;
 	m++;
-	void SumSumNumber(int m);
+	SumNumber(m);
 	// TODO: 在此添加控件通知处理程序代码
+	ar.Close();
+	CDialogEx::OnOK();
 }

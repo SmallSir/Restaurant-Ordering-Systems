@@ -6,6 +6,7 @@
 #include "LoginDlg.h"
 #include "afxdialogex.h"
 #include "Filex.h"
+#include "REGISTER.h"
 int n;
 
 
@@ -77,7 +78,8 @@ void CLoginDlg::OnBnClickedButtonLogin()
 void CLoginDlg::OnBnClickedButtonRegister()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//点击后跳转注册网页；
+	REGISTER dlg;
+	dlg.DoModal();
 }
 
 
