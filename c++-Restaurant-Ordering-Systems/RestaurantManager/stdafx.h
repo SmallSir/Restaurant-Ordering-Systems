@@ -10,6 +10,8 @@
 #endif
 
 #include "targetver.h"
+#include <afxdb.h>
+#include<icrsint.h>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
 
@@ -20,9 +22,6 @@
 #include <afxext.h>         // MFC 扩展
 
 
-
-
-
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // MFC 对 Internet Explorer 4 公共控件的支持
 #endif
@@ -31,13 +30,8 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include <afxcontrolbars.h>     // 功能区和控件条的 MFC 支持
-
-
-
-
-
-
-
+#include <afxdb.h>
+#include <odbcinst.h>
 
 
 #ifdef _UNICODE
@@ -50,4 +44,4 @@
 #endif
 #endif
 
-
+#import "msado15.dll" no_namespace rename("EOF", "adoEOF")

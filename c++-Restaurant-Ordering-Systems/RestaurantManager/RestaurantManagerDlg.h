@@ -35,6 +35,18 @@ public:
 protected:
 	HICON m_hIcon;
 
+	// 生成的消息映射函数
+	virtual BOOL OnInitDialog();
+	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+	afx_msg void OnPaint();
+	afx_msg HCURSOR OnQueryDragIcon();
+	DECLARE_MESSAGE_MAP()
+
+	void initMenuList();
+public:
+	CString ID;					// 员工工号
+	CString name;				// 员工姓名
+	CStatic m_sAvatar;			// 员工头像
 	// 对话框指针
 	CClientDlg *m_ClientDlg;	// 客户端对话框
 	CHistoryDlg *m_HistoryDlg;	// 历史账单对话框
@@ -53,15 +65,6 @@ protected:
 	CString m_strWorkTime;		// 工作时间
 	unsigned long workseconds;	// 工作秒数
 
-	// 生成的消息映射函数
-	virtual BOOL OnInitDialog();
-	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	DECLARE_MESSAGE_MAP()
-
-	void initMenuList();
-public:
 	void OnRButtonClickedLishCtrl(CListCtrl* m_plistCtrl, UINT ID_MENU);	// 为LishControl控件添加右键菜单
 	afx_msg void OnBnClickedButtonLogout();			// 按钮点击消息
 	afx_msg void OnBnClickedButtonExit();
@@ -87,5 +90,4 @@ public:
 	afx_msg void OnOrderMenuCheckOut();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);	// 记录工作时间的计时器
 	afx_msg void OnClickListTypemenu(NMHDR *pNMHDR, LRESULT *pResult);
-	CStatic m_sAvatar;
 };

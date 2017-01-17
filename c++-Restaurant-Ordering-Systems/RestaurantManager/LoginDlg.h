@@ -1,17 +1,12 @@
 #pragma once
 
-
 // CLoginDlg 对话框
 
 class CLoginDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CLoginDlg)
-
 public:
-	void HowManyPerson(int m);//在注册窗口传递已经注册数量
 	CLoginDlg(CWnd* pParent = NULL);   // 标准构造函数
 	virtual ~CLoginDlg();
-	void SumNumber(int m);
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG_LOGIN };
@@ -22,8 +17,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	CString ID;					// 员工工号
+	CString name;				// 员工姓名
 	afx_msg void OnBnClickedButtonLogin();
 	afx_msg void OnBnClickedButtonRegister();
-	int m_Number;
 	CString m_password;
+	CString m_Number;
 };

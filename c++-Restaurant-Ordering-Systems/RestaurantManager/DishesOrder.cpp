@@ -2,9 +2,10 @@
 #include "DishesOrder.h"
 
 
-DishesOrder::DishesOrder(CListCtrl *m_plistOrder)
+DishesOrder::DishesOrder(CListCtrl *m_plistOrder, CListCtrl *m_client)
 {
 	this->m_plistOrder = m_plistOrder;
+	this->m_client = m_client;
 }
 
 
@@ -30,6 +31,7 @@ void DishesOrder::orderDish(Dish dish)
 			iter->addNumber();
 			// 刷新数量
 			m_plistOrder->SetItemText(i, 3, iter->getNumberStr());
+			m_client->SetItemText(i, 3, iter->getNumberStr());
 			// 刷新价格
 			m_plistOrder->SetItemText(i, 4, iter->getPrice());
 			break;
@@ -43,6 +45,13 @@ void DishesOrder::orderDish(Dish dish)
 		m_plistOrder->SetItemText(index, 2, dish.getPerprice());
 		m_plistOrder->SetItemText(index, 3, _T("1"));
 		m_plistOrder->SetItemText(index, 4, dish.getPrice());
+		// 在点餐栏加入这道菜
+		index = m_client->GetItemCount();
+		m_client->InsertItem(index, dish.getIdStr());
+		m_client->SetItemText(index, 1, dish.getName());
+		m_client->SetItemText(index, 2, dish.getPerprice());
+		m_client->SetItemText(index, 3, _T("1"));
+		m_client->SetItemText(index, 4, dish.getPrice());
 		// 在容器中添加
 		dishes.push_back(dish);
 	}
@@ -60,14 +69,17 @@ BOOL DishesOrder::deleteDish(int index)
 	if (0 == dish->getNumber()) {
 		// 在列表中删除
 		m_plistOrder->DeleteItem(index);
+		m_client->DeleteItem(index);
 		// 在容器中删除
 		dishes.erase(dishes.begin() + index);
 	}
 	else {
 		// 刷新数量
 		m_plistOrder->SetItemText(index, 3, dish->getNumberStr());
+		m_client->SetItemText(index, 3, dish->getNumberStr());
 		// 刷新价格
 		m_plistOrder->SetItemText(index, 4, dish->getPrice());
+		m_client->SetItemText(index, 4, dish->getPrice());
 	}
 	
 	return TRUE;
@@ -79,6 +91,7 @@ void DishesOrder::clearDish()
 	dishes.clear();
 	// 清空列表
 	m_plistOrder->DeleteAllItems();
+	m_client->DeleteAllItems();
 }
 
 CString DishesOrder::getPayment() const

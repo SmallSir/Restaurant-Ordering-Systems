@@ -60,10 +60,7 @@
     <ClInclude Include="DishesTypeMenu.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="REGISTER.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Filex.h">
+    <ClInclude Include="RegisterDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,10 +101,7 @@
     <ClCompile Include="DishesTypeMenu.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="REGISTER.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Filex.cpp">
+    <ClCompile Include="RegisterDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
