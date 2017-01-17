@@ -7,9 +7,10 @@ class DishesOrder
 {
 private:
 	CListCtrl *m_plistOrder;
+	CListCtrl *m_client;
 	vector<Dish> dishes;
 public:
-	DishesOrder(CListCtrl *);
+	DishesOrder(CListCtrl *, CListCtrl *m_client);
 	~DishesOrder();
 
 	Dish *getDish(int);		// 获取点餐列表中下标位置菜品

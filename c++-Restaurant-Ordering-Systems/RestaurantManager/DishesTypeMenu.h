@@ -7,9 +7,9 @@ using namespace std;
 class DishesTypeMenu
 {
 private:
+	vector<DishesMenu> menus;
 	CListCtrl *m_plistMenu;
 	CListCtrl *m_plistTypeMenu;
-	vector<DishesMenu> menus;
 public:
 	DishesTypeMenu(CListCtrl*, CListCtrl*);
 	~DishesTypeMenu();

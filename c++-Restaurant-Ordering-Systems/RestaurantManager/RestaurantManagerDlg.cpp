@@ -55,7 +55,7 @@ CRestaurantManagerDlg::CRestaurantManagerDlg(CWnd* pParent /*=NULL*/)
 	, m_ClientDlg(new CClientDlg())
 	, m_HistoryDlg(new CHistoryDlg())
 	, m_DishesTypeMenu(&m_listMenu, &m_listTypeMenu)
-	, m_DishesOrder(&m_listOrder)
+	, m_DishesOrder(&m_listOrder, &m_ClientDlg->m_client)
 	, m_strCurTime(_T(""))
 	, m_strWorkTime(_T(""))
 	, workseconds(0)
@@ -79,6 +79,8 @@ void CRestaurantManagerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_STATIC_WORKTIME, m_strWorkTime);
 	DDX_Control(pDX, IDC_LIST_TYPEMENU, m_listTypeMenu);
 	DDX_Control(pDX, IDC_STATIC_AVATAR, m_sAvatar);
+	DDX_Text(pDX, IDC_STATIC_USERID, ID);
+	DDX_Text(pDX, IDC_STATIC_USERNAME, name);
 }
 
 BEGIN_MESSAGE_MAP(CRestaurantManagerDlg, CDialogEx)
@@ -152,8 +154,8 @@ BOOL CRestaurantManagerDlg::OnInitDialog()
 	m_sAvatar.SetWindowPos(NULL,
 		2,		// x坐标
 		2,		// y坐标
-		133,	// 显示宽度
-		133,	// 显示高度
+		120,	// 显示宽度
+		120,	// 显示高度
 		SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER
 	);
 
@@ -285,6 +287,7 @@ void CRestaurantManagerDlg::OnBnClickedButtonStartCheckout()
 		return;
 	}
 	CCheckOutDlg dlg;
+	dlg.m1 = m_DishesOrder.getPaymentNum();
 	if (dlg.DoModal() == IDOK) {
 		// 记录账单
 		m_HistoryDlg->m_DishesHistory.addOrder(m_DishesOrder);
@@ -292,6 +295,7 @@ void CRestaurantManagerDlg::OnBnClickedButtonStartCheckout()
 		m_DishesOrder.clearDish();
 		// 刷新总价
 		m_bEditTotal.SetWindowTextW(m_DishesOrder.getPayment());
+		m_ClientDlg->m_edit.SetWindowTextW(m_DishesOrder.getPayment());
 	}
 }
 
@@ -308,6 +312,7 @@ void CRestaurantManagerDlg::OnBnClickedButtonDelete()
 	m_DishesOrder.deleteDish(index);
 	// 刷新总价
 	m_bEditTotal.SetWindowTextW(m_DishesOrder.getPayment());
+	m_ClientDlg->m_edit.SetWindowTextW(m_DishesOrder.getPayment());
 }
 
 
@@ -319,6 +324,7 @@ void CRestaurantManagerDlg::OnBnClickedButtonClear()
 		m_DishesOrder.clearDish();
 		// 刷新总价
 		m_bEditTotal.SetWindowTextW(m_DishesOrder.getPayment());
+		m_ClientDlg->m_edit.SetWindowTextW(m_DishesOrder.getPayment());
 	}
 }
 
@@ -336,6 +342,7 @@ void CRestaurantManagerDlg::OnBnClickedButtonOrder()
 	m_DishesOrder.orderDish(*m_DishesTypeMenu.getMenu(nType)->getDish(nOrder));
 	// 刷新总价
 	m_bEditTotal.SetWindowTextW(m_DishesOrder.getPayment());
+	m_ClientDlg->m_edit.SetWindowTextW(m_DishesOrder.getPayment());
 }
 
 
@@ -406,16 +413,6 @@ void CRestaurantManagerDlg::OnDblclkListMenu(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CRestaurantManagerDlg::OnRButtonClickedLishCtrl(CListCtrl *listCtrl, UINT IDR)
 {
-/*	//获取鼠标坐标
-	CPoint ptCurSel(0, 0);
-	GetCursorPos(&ptCurSel);
-	//转换为当前控件坐标系的坐标
-	listCtrl->ScreenToClient(&ptCurSel);
-	LVHITTESTINFO HitTestInfo;
-	HitTestInfo.pt = ptCurSel;
-	//判断坐标命中第几项
-	int nItem = listCtrl->HitTest(&HitTestInfo);*/
-
 	int nItem = listCtrl->GetNextItem(-1, LVNI_SELECTED);
 
 	//如果有选中项
@@ -508,7 +505,10 @@ void CRestaurantManagerDlg::OnTimer(UINT_PTR nIDEvent)
 	// 工作秒数加一
 	workseconds++;
 	// 显示工作时间
-	m_strWorkTime.Format(_T("%02d:%02d:%02d"), ((workseconds / 60) / 60) % 24, (workseconds / 60) % 60, workseconds % 60);
+	m_strWorkTime.Format(_T("%02d:%02d:%02d"), 
+		((workseconds / 60) / 60) % 24, 
+		(workseconds / 60) % 60, 
+		workseconds % 60);
 	UpdateData(FALSE);
 
 	CDialogEx::OnTimer(nIDEvent);

@@ -5,44 +5,32 @@
 #include "RestaurantManager.h"
 #include "LoginDlg.h"
 #include "afxdialogex.h"
-#include "Filex.h"
-#include "REGISTER.h"
-int n;
+#include "RegisterDlg.h"
+
 
 
 // CLoginDlg 对话框
 
-IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
-
-void CLoginDlg::HowManyPerson(int m)
-{
-	n = m;
-}
-
 CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DIALOG_LOGIN, pParent)
-	, m_Number(0)
 	, m_password(_T(""))
+	, m_Number(_T(""))
 {
-
+	CoInitialize(NULL);
+	//注册本地数据库数据源
+	SQLConfigDataSource(NULL, ODBC_ADD_DSN, _T("Microsoft Access Driver (*.mdb)"), _T("DSN=RestaurantWorkers;DBQ=Workers.mdb"));
 }
 
 CLoginDlg::~CLoginDlg()
 {
 }
 
-void CLoginDlg::SumNumber(int m)
-{
-	n = m;
-}
-
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDIT1, m_Number);
 	DDX_Text(pDX, IDC_EDIT2, m_password);
+	DDX_Text(pDX, IDC_EDIT1, m_Number);
 }
-
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN, &CLoginDlg::OnBnClickedButtonLogin)
@@ -55,21 +43,54 @@ END_MESSAGE_MAP()
 
 void CLoginDlg::OnBnClickedButtonLogin()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//引用WorkerInfo中的函数，把已经填写的信息根据文档内已经注册的信息进行比较，判断是否有问题
-	int i;
-	CFilex file(_T("d:\\person.txt"), CFile::modeRead);
-	CArchive ar(&file, CArchive::load);
-	for (i = 0; i < n; i++)
+	UpdateData(true);
+	if (m_Number == "")
 	{
-		if (m_Number == file.p[i].Password&&m_password == file.p[i].Password)
+		AfxMessageBox(_T("帐号为空！"));
+	}
+	else if (m_password == "")
+	{
+		AfxMessageBox(_T("密码为空！"));
+	}
+	else {
+		// 创建CDatabase对象，连接数据源
+		CDatabase m_db;
+		m_db.OpenEx(_T("DSN=RestaurantWorkers;"), CDatabase::noOdbcDialog);
+		// 创建CRecordset对象
+		CRecordset m_rec(&m_db);
+		// SQL语句
+		CString strSQL = "select * from Workers";
+		// 连接数据库
+		m_rec.Open(CRecordset::dynaset, strSQL);
+		while (!m_rec.IsEOF())
 		{
-			CDialogEx::OnOK();
+			// 使用数据库的代码，读出来的数据都是字符串型的
+			CString id;
+			m_rec.GetFieldValue(short(0), id);  //将某个字段的当前行的值读到MyVirabl中
+			// 判断ID是否相同
+			if (m_Number.Compare(id) == 0) {
+				CString password;
+				m_rec.GetFieldValue(short(2), password);
+				// 判断密码是否相同
+				if (m_password.Compare(password) == 0) {
+					// 获取用户姓名
+					CString name;
+					m_rec.GetFieldValue(short(1), name);
+					this->ID = id;
+					this->name = name;
+					// 关闭对话框
+					CDialogEx::OnOK();
+					break;
+				}
+			}
+			m_rec.MoveNext(); //将记录移到下一行
 		}
-		else
+		if (m_rec.IsEOF())
 		{
-			AfxMessageBox(_T("密码或者工号错误，请确认后重新输入"));
+			AfxMessageBox(_T("账号或密码错误！"));
 		}
+		// 断开连接
+		m_db.Close();
 	}
 }
 
@@ -78,7 +99,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 void CLoginDlg::OnBnClickedButtonRegister()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	REGISTER dlg;
+	CRegisterDlg dlg;
 	dlg.DoModal();
 }
 
